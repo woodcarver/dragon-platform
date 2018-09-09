@@ -7,15 +7,15 @@ from sqlalchemy.orm.exc import NoResultFound
 
 log = logging.getLogger(__name__)
 
-api = Api(version='1.0', title='Dragon Simulation API'
+api = Api(version='1.0', title='Dragon Simulation API',
         description='A data share platform for asytronomy simulation')
 
-@api.errohandler
+@api.errorhandler
 def default_error_handler(e):
     message = 'An unhandled exeception occurred.'
     log.exception(message)
 
-    if not settings.FLASK_DEBUG
+    if not settings.FLASK_DEBUG:
         return {'messagae' : message}, 500
 
 @api.errorhandler(NoResultFound)

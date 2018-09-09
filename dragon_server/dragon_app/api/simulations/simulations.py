@@ -10,7 +10,7 @@ ns = api.namespace('simulations', description='Operations related to simulation'
 
 @ns.route('/list/latest')
 class SimulationCollection(Resource):
-    @api.marshal_list_with()
+    #@api.marshal_list_with()
     def get(self):
         """
         Returns latest list of simulations.

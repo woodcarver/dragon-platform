@@ -1,6 +1,6 @@
 # Flask_settings
-DRAGON_SERVER_NAME = 'localhost:7777'
-DRAGON_DEBUG = True  # Do not use debug mode in production
+FLASK_SERVER_NAME = 'localhost:7777'
+FLASK_DEBUG = True  # Do not use debug mode in production
 
 # Flask-Restplus settings
 RESTPLUS_SWAGGER_UI_DOC_EXPANSION = 'list'
