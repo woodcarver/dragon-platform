@@ -9,5 +9,5 @@ RESTPLUS_MASK_SWAGGER = False
 RESTPLUS_ERROR_404_HELP = False
 
 # SQLAlchemy settings
-SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost:3306/dragon?charset=utf8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False

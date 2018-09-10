@@ -5,7 +5,7 @@ from flask import Flask, Blueprint
 from dragon_app import settings
 from dragon_app.api.simulations.simulations import ns as simulation_namespace 
 from dragon_app.api.restplus import api
-#from dragon_app.database import db
+from dragon_app.database import db
 
 app = Flask(__name__)
 logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../logging.conf'))
@@ -25,7 +25,7 @@ def initialize_app(flask_app):
     api.add_namespace(simulation_namespace)
     flask_app.register_blueprint(blueprint)
 
-    # db.init_app(flask_app)
+    db.init_app(flask_app)
 
 def main():
     initialize_app(app)
