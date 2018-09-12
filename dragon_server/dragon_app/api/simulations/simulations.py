@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 ns = api.namespace('simulations', description='Operations related to simulation')
 
 @ns.route('/list/latest')
-class SimulationCollection(Resource):
+class SimulationLatest(Resource):
     #@api.marshal_list_with(simulation)
     def get(self):
         """
@@ -21,6 +21,23 @@ class SimulationCollection(Resource):
         datalist = Simulation.query.all()
         return format_response(simulation_list, datalist)
 
+@ns.route('/list/popular')
+class SimulationPopular(Resource):
+    def get(self):
+        """
+        Returns popular list of simulations.
+        """
+        datalist = Simulation.query.all()
+        return format_response(simulation_list, datalist)
+
+@ns.route('/list/all')
+class SimulationCollection(Resource):
+    def get(self):
+        """
+        Returns list of simulations.
+        """
+        datalist = Simulation.query.all()
+        return format_response(simulation_list, datalist)
 
 @ns.route('/detail/<int:id>')
 class SimulationCollection(Resource):
