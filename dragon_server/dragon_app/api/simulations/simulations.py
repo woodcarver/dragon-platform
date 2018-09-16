@@ -4,8 +4,8 @@ import json
 from flask import request
 from flask_restplus import Resource
 from dragon_app.api.restplus import api
-from dragon_app.database.models import Simulation, SimulationDownLog, create_down_log
-from dragon_app.api.simulations.serializers import format_response, simulation_list, simulation_down_log
+from dragon_app.database.models import Simulation, SimulationDownLog, SimulationPreview, create_down_log
+from dragon_app.api.simulations.serializers import format_response, simulation_list, preview_list, simulation_down_log
 
 log = logging.getLogger(__name__)
 
@@ -48,6 +48,15 @@ class SimulationCollection(Resource):
         data = Simulation.query.filter(Simulation.id == id).one()
         return format_response(simulation_list, data)
 
+@ns.route('/preview/<int:simulation_id>/<int:time_range>/<int:stellar_type>/<int:popular_type>')
+class Preview(Resource):
+    def get(self, simulation_id, time_range=None, stellar_type=None, popular_type=None):
+        """
+        Return preview data
+        """
+        data = SimulationPreview.query.filter(Simulation.id == simulation_id).one()
+        return format_response(preview_list, data)
+
 @ns.route('/download')
 class SimulationDownload(Resource):
     @api.response(201, 'download log successfully created.')
@@ -58,5 +67,5 @@ class SimulationDownload(Resource):
         """
         data = request.json
         create_down_log(data)
-        return None, 201
+        return format_response(), 201
 

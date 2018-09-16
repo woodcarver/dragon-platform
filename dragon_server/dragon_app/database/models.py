@@ -21,6 +21,17 @@ class Simulation(db.Model):
     #    def __repr__(self):
     #        return '<Simulation %r>' % self.title
 
+class SimulationPreview(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    file_name = db.Column(db.String(80))
+    nbody_time = db.Column(db.String(80))
+    kw = db.Column(db.String(255))
+    mass = db.Column(db.String(255))
+    luminosity = db.Column(db.String(255))
+    temperature = db.Column(db.String(255))
+    metallicity = db.Column(db.String(255))
+    create_time = db.Column(db.Integer)
+    
 class SimulationDownLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     simulation_id = db.Column(db.Integer)
