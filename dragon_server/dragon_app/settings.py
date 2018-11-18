@@ -13,4 +13,5 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost:3306/dragon?charset=u
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # 文件下载目录
-HDFILE_PATH = '/Users/xiedandan/Desktop/dragon/dragon-platform/dragon_server/dragon_app'
+# HDFILE_PATH = '/Users/xiedandan/Desktop/dragon/dragon-platform/dragon_server/dragon_app'
+HDFILE_PATH = '../data'
