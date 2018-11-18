@@ -1,13 +1,15 @@
-import logging
+import os
 import json
 
-from flask import request
+from flask import request, send_from_directory
 from flask_restplus import Resource
+from dragon_app import settings
 from dragon_app.api.restplus import api
-from dragon_app.database.models import Simulation, SimulationDownLog, SimulationPreview, create_down_log
-from dragon_app.api.simulations.serializers import format_response, simulation_list, preview_list, simulation_down_log
+from dragon_app.database.models import session, Simulation, SimulationDownLog, SimulationPreview, SimulationFiles, create_down_log
+from dragon_app.api.simulations.serializers import format_sql_result,format_response, format_model_result
+from dragon_app.api.simulations.serializers import simulation_list,simulation_detail, file_list, preview_list
+from dragon_app.api.simulations.serializers import simulation_down_log
 
-log = logging.getLogger(__name__)
 
 ns = api.namespace('simulations', description='Operations related to simulation')
 
@@ -45,8 +47,11 @@ class SimulationCollection(Resource):
         """
         Returns detail of one simulation.
         """
-        data = Simulation.query.filter(Simulation.id == id).one()
-        return format_response(simulation_list, data)
+        basic_info = Simulation.query.filter(Simulation.id == id).one()
+        basic_info = format_model_result(simulation_detail, basic_info)
+        files_info = session.execute("select * from simulation_files")
+        basic_info['files'] = format_sql_result(files_info)
+        return format_response(simulation_detail, basic_info)
 
 @ns.route('/preview/<int:simulation_id>/<int:time_range>/<int:stellar_type>/<int:popular_type>')
 class Preview(Resource):
@@ -67,5 +72,16 @@ class SimulationDownload(Resource):
         """
         data = request.json
         create_down_log(data)
-        return format_response(), 201
+        return send_from_directory(settings.HDFILE_PATH , data['file_name'], as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
+    
+@ns.route('/downloader/<path:filename>')
+class SimulationDownloader(Resource):
+    def get(self, filename):
+        return send_from_directory(settings.HDFILE_PATH , filename, as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
 
+
+@ns.route('/test')
+class Test(Resource):
+    def get(self):
+        data = session.execute("select file_name,simulation_id,create_date from simulation_files")
+        return format_sql_result(data)

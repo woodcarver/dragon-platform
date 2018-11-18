@@ -16,6 +16,7 @@ def configure_app(flask_app):
     flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
     flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
+    flask_app.config['HDFILE_PATH'] = settings.HDFILE_PATH
 
 def initialize_app(flask_app):
     configure_app(flask_app)
