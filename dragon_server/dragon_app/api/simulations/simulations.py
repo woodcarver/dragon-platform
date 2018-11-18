@@ -49,8 +49,10 @@ class SimulationCollection(Resource):
         """
         basic_info = Simulation.query.filter(Simulation.id == id).one()
         basic_info = format_model_result(simulation_detail, basic_info)
-        files_info = session.execute("select * from simulation_files")
-        basic_info['files'] = format_sql_result(files_info)
+        # files_info = session.execute("select * from simulation_files")
+        # basic_info['files'] = format_sql_result(files_info)
+        files_info = SimulationFiles.query.filter(SimulationFiles.simulation_id)
+        basic_info['files'] = format_model_result(file_list, files_info)
         return format_response(simulation_detail, basic_info)
 
 @ns.route('/preview/<int:simulation_id>/<int:time_range>/<int:stellar_type>/<int:popular_type>')
@@ -72,13 +74,16 @@ class SimulationDownload(Resource):
         """
         data = request.json
         create_down_log(data)
-        return send_from_directory(settings.HDFILE_PATH , data['file_name'], as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
-    
-@ns.route('/downloader/<path:filename>')
-class SimulationDownloader(Resource):
-    def get(self, filename):
-        return send_from_directory(settings.HDFILE_PATH , filename, as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
+        dirpath = os.path.join(settings.HDFILE_PATH, 'simulation_%s' % data['simulation_id'])
+        print(dirpath)
+        return send_from_directory(dirpath, data['file_name'], as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
 
+@ns.route('/downloader/<int:simulation_id>/<path:filename>')
+class SimulationDownloader(Resource):
+    def get(self, simulation_id, filename):
+        dirpath = os.path.join(settings.HDFILE_PATH, 'simulation_%s' % simulation_id)
+        print("###" + os.path.abspath(dirpath))
+        return send_from_directory(dirpath, filename, as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
 
 @ns.route('/test')
 class Test(Resource):

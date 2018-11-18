@@ -13,7 +13,6 @@ file_list = api.model("files",{
         'stellar_type': fields.String(required=True),
         'pululaitons': fields.String(required=True),
         'create_date': fields.String(required=True),
-        'file_path': fields.String(required=False),
         })
 simulation_list = api.model("simulation",{
         'id': fields.Integer(readOnly=True, description='The unique identifier of a blog simulation'),
