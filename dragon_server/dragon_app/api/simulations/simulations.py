@@ -51,7 +51,7 @@ class SimulationCollection(Resource):
         basic_info = format_model_result(simulation_detail, basic_info)
         # files_info = session.execute("select * from simulation_files")
         # basic_info['files'] = format_sql_result(files_info)
-        files_info = SimulationFiles.query.filter(SimulationFiles.simulation_id)
+        files_info = SimulationFiles.query.filter(SimulationFiles.simulation_id == id).all()
         basic_info['files'] = format_model_result(file_list, files_info)
         return format_response(simulation_detail, basic_info)
 
