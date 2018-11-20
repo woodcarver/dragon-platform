@@ -75,9 +75,7 @@ class SimulationDownload(Resource):
         """
         data = request.json
         create_down_log(data)
-        dirpath = os.path.join(settings.HDFILE_PATH, 'simulation_%s' % data['simulation_id'])
-        print(dirpath)
-        return send_from_directory(dirpath, data['file_name'], as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
+        return None, 201
 
 @ns.route('/downloader/<int:simulation_id>/<path:filename>')
 class SimulationDownloader(Resource):

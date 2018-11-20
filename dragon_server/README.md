@@ -6,3 +6,7 @@ python3 setup.py install
 
 # start up
 python3 application.py
+
+# how to write sql directly
+files_info = session.execute("select * from simulation_files")
+basic_info['files'] = format_sql_result(files_info)
