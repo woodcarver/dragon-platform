@@ -35,6 +35,7 @@ simulation_detail = api.model("simulation",{
         'kick_ns': fields.String(required=True),
         'rt': fields.String(required=True),
         'publish_date': fields.String(required=True),
+        'video_path': fields.String(require=False),
         'files':fields.List(fields.Nested(file_list)),
         })
 preview_list = api.model("preview", {

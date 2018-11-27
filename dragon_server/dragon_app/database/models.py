@@ -17,6 +17,7 @@ class Simulation(db.Model):
     rt = db.Column(db.String(255))
     simulation_time = db.Column(db.Integer)
     publish_date = db.Column(db.DateTime)
+    video_path = db.Column(db.String)
 
     # 一对多:
     # files = relationship('SimulationFiles')
