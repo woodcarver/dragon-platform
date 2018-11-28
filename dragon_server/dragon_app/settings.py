@@ -15,3 +15,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # 文件下载目录
 # 默认路径是dragon_server下面，可以在application中进行覆盖
 HDFILE_PATH = '../data'
+
+# 资源文件，比如模拟的图片和视频
+RESOURCE_PATH= '/upload'

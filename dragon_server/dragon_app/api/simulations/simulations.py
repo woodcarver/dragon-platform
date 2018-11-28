@@ -49,6 +49,7 @@ class SimulationCollection(Resource):
         """
         basic_info = Simulation.query.filter(Simulation.id == id).one()
         basic_info = format_model_result(simulation_detail, basic_info)
+        basic_info['video_path'] = os.path.join(settings.RESOURCE_PATH, basic_info['video_path'])
         # files_info = session.execute("select * from simulation_files")
         # basic_info['files'] = format_sql_result(files_info)
         files_info = SimulationFiles.query.filter(
@@ -82,7 +83,7 @@ class SimulationDownloader(Resource):
     def get(self, simulation_id, filename):
         dirpath = os.path.join(settings.HDFILE_PATH, 'simulation_%s' % simulation_id)
         print("###" + os.path.abspath(dirpath))
-        return send_from_directory(dirpath, filename, as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载   
+        return send_from_directory(dirpath, filename, as_attachment=True)  # as_attachment=True 一定要写，不然会变成打开，而不是下载
 
 @ns.route('/test')
 class Test(Resource):
